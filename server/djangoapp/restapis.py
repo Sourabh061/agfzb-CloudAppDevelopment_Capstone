@@ -29,7 +29,7 @@ def get_dealers_from_cf(url, **kwargs):
         json_result = get_request(url, state=state)
     else:
         json_result = get_request(url)
-    print(json_result)    
+    # print(json_result)    
 
     if json_result:
         # Get the row list in JSON as dealers
@@ -73,8 +73,11 @@ def get_dealer_reviews_from_cf(url, **kwargs):
         json_result = get_request(url)
 
     if json_result:
-        reviews = json_result["body"]["rows"]["doc"]
+        reviews = json_result["body"]["data"]
+
         for dealer_review in reviews:
+            dealer_review = reviews["docs"][0]
+            
             review_obj = DealerReview(dealership=dealer_review["dealership"],
                                    name=dealer_review["name"],
                                    purchase=dealer_review["purchase"],
